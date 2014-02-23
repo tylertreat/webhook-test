@@ -15,5 +15,10 @@ def push():
     logging.error('request: %s' % request.data)
     return request.data, 200
 
+
+def foo():
+    return 1 + 1
+
+
 if __name__ == '__main__':
     app.run()
