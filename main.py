@@ -17,6 +17,11 @@ def hello_world():
     return 'Hello World'
 
 
+@app.route('/error')
+def error():
+    raise ValueError('oh snap')
+
+
 @app.route('/push', methods=['POST'])
 def push():
     logging.error('request: %s' % request.data)
