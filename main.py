@@ -3,8 +3,13 @@ import logging
 from flask import Flask
 from flask import request
 
+import kaput
+
+import settings
+
 
 app = Flask(__name__)
+kaput.init(settings.API_KEY, settings.PROJECT_ID, debug=True)
 
 
 @app.route('/')
