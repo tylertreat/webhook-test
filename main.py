@@ -25,7 +25,7 @@ def hello_world():
 
 @app.route('/error')
 def error():
-    raise ValueError('oh snap!')
+    raise ValueError('oh snap')
 
 
 @app.route('/push', methods=['POST'])
