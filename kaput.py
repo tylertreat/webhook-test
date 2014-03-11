@@ -16,7 +16,7 @@ _SERVICE_ENDPOINT = '/api/v1/exception'
 _HTTP = Http()
 
 
-def init(api_key, project_id, debug=False):
+def init(api_key, project_id, patch=True, debug=False):
     """Initialize the Kaput service for error monitoring."""
 
     global _API_KEY
@@ -32,13 +32,22 @@ def init(api_key, project_id, debug=False):
     if not _PROJECT_ID:
         raise Exception('Project ID required')
 
-    # Use a hook to capture and report exceptions.
-    # TODO: Support chaining user/third-party excepthooks. This overwrites them
-    # currently.
-    sys.excepthook = _handle_exception
+    if patch:
+        # Use a hook to capture and report exceptions.
+        # TODO: Support chaining user/third-party excepthooks. This overwrites
+        # them currently.
+        sys.excepthook = _handle_exception
 
-    if _DEBUG:
-        logging.debug('Kaput exception hook enabled')
+        if _DEBUG:
+            logging.debug('Kaput exception hook enabled')
+
+
+def handle_exception(exc):
+    """Capture the exception information and send it to the Kaput service for
+    processing.
+    """
+
+    _handle_exception(exc.__class__, exc, sys.exc_traceback)
 
 
 def _handle_exception(exc_type, exc_value, exc_traceback):
@@ -54,7 +63,7 @@ def _handle_exception(exc_type, exc_value, exc_traceback):
         'exception': exc_type.__name__,
         'message': exc_value.message,
         'frames': frames,
-        'stacktrace': traceback.format_tb(exc_traceback)
+        'stacktrace': traceback.format_exc()
     }
 
     # TODO: Make requests asynchronously.
