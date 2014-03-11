@@ -9,7 +9,13 @@ import settings
 
 
 app = Flask(__name__)
-kaput.init(settings.API_KEY, settings.PROJECT_ID, debug=True)
+kaput.init(settings.API_KEY, settings.PROJECT_ID, patch=False, debug=True)
+
+
+@app.errorhandler(500)
+def page_not_found(e):
+    kaput.handle_exception(e)
+    return '500 Error', 500
 
 
 @app.route('/')
