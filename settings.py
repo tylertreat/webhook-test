@@ -1,4 +1,3 @@
-
 try:
     import settingslocal
 except ImportError:
