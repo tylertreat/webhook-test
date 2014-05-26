@@ -7,3 +7,4 @@ threadsafe: no
 handlers:
 - url: .*
   script: main.app
+
