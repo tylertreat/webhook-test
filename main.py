@@ -2,7 +2,6 @@ import logging
 
 from flask import Flask
 from flask import request
-
 import kaput
 
 import settings
